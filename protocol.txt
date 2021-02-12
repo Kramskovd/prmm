@@ -1,0 +1,84 @@
+1. Компиляция программы.
+gcc -g -Wall -Wextra -Wfloat-equal -Werror -pedantic -std=c99 4.c compare.c buble_sort.c remove_repeat.c -o prog
+
+
+2. Некорректные данные.
+
+2.1. Отсутствуют входные файлы.
+
+$ rm -f input.txt; ./prog; echo $?
+Can`t open input.txt.
+255
+
+2.2. Пустой входной файл.
+
+$ touch input.txt; ./prog; echo $?
+Can`t read parameter `n`.
+255
+
+2.3. Входной файл содержит только мусор.
+
+$ echo "a" > input.txt; ./prog; echo $?
+Can`t read parameter `n`.
+255
+
+2.4. Входной файл содержит числовую последовательность и в конце мусор.
+
+$ echo "3 1 2 a" > input.txt; ./prog; echo $?
+Can`t read element.
+255
+
+2.5. Отсутсвует вторая последовательность
+$ echo "3 1 2 4" > input.txt; ./prog; echo $?
+Can`t read parameter `m`.
+255
+
+$ echo "-1 1 2 4; 2 1 4" > input.txt; ./prog; echo $?
+Wrong parameter `n` .
+255
+
+$ echo "3 1 2 4; -3 1 4" > input.txt; ./prog; echo $?
+Wrong parameter `m` .
+255
+
+3. Корректные данные.
+
+$ echo "1 1; 1 1" > input.txt; ./prog; echo $?; cat output.txt
+0
+A = B
+
+$ echo "10 2 3 3 2 2 4 3 2 2 2; 3 2 3 4" > input.txt; ./prog; echo $?; cat output.txt
+0
+A = B
+
+$ echo "10 2 3 3 2 2 4 3 2 2 2; 5 2 3 4 1 2" > input.txt; ./prog; echo $?; cat output.txt
+0
+A лежит в B
+
+$ echo "4 1 1 2 3; 4 5 1 2 3" > input.txt; ./prog; echo $?; cat output.txt
+0
+A лежит в B
+
+$ echo "5 1 2 3 4 5; 4 1 2 3 4" > input.txt; ./prog; echo $?; cat output.txt
+0
+B лежит в A
+
+$ echo "4 4 4 4 5; 3 2 3 4" > input.txt; ./prog; echo $?; cat output.txt
+0
+A не лежит в B и B не лежит в A
+
+$ echo "5 1 2 3 4 10; 4 1 2 2 3" > input.txt; ./prog; echo $?; cat output.txt
+0
+B лежит в A
+
+$ echo "4 4 5 6 7; 3 1 2 3" > input.txt; ./prog; echo $?; cat output.txt
+0
+A не лежит в B и B не лежит в A
+
+$ echo "3 2 2 2; 5 3 3 3 3 3" > input.txt; ./prog; echo $?; cat output.txt
+0
+A не лежит в B и B не лежит в A
+
+
+
+
